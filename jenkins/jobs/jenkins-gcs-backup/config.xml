@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>This job backs up an archive of the Jenkins master configuration to Google Cloud Storage on a periodic basis. It requires Google Credentials and a Bucket Name to be configured in the Post-build Action.</description>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>master</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 9-16/2 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command># Prepare
+rm -rf *
+mkdir -p $BUILD_ID/jobs
+cp $JENKINS_HOME/*.xml $BUILD_ID/
+
+# Secrets
+cp $JENKINS_HOME/*.key $BUILD_ID/ 2&gt;/dev/null || :
+cp $JENKINS_HOME/*.key.* $BUILD_ID/ 2&gt;/dev/null || :
+cp -r $JENKINS_HOME/secrets $BUILD_ID/ 2&gt;/dev/null || :
+
+# Users
+cp -r $JENKINS_HOME/users $BUILD_ID/ 2&gt;/dev/null || :
+
+rsync -am --include=&apos;config.xml&apos; \
+  --include=&apos;*/&apos; \
+  --prune-empty-dirs \
+  $JENKINS_HOME/jobs/ $BUILD_ID/jobs/
+
+# Archive and clean
+tar czf $BUILD_ID.tar.gz $BUILD_ID/
+cp $BUILD_ID.tar.gz LATEST.tar.gz
+rm -rf $BUILD_ID</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <com.google.jenkins.plugins.storage.GoogleCloudStorageUploader plugin="google-storage-plugin@0.8">
+      <credentialsId></credentialsId>
+      <uploads>
+        <com.google.jenkins.plugins.storage.ClassicUpload>
+          <bucketNameWithVars>gs://YOUR_GCS_BUCKET_NAME/jenkins-backups/</bucketNameWithVars>
+          <sharedPublicly>false</sharedPublicly>
+          <forFailedJobs>false</forFailedJobs>
+          <module/>
+          <sourceGlobWithVars>*</sourceGlobWithVars>
+        </com.google.jenkins.plugins.storage.ClassicUpload>
+      </uploads>
+    </com.google.jenkins.plugins.storage.GoogleCloudStorageUploader>
+  </publishers>
+  <buildWrappers/>
+</project>

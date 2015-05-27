@@ -1,0 +1,59 @@
+{
+  "variables": {
+    "name": "jenkins-gcp-leader",
+    "git_commit": "",
+    "git_branch": "",
+    "account_file": "",
+    "project_id": "null"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "jenkins:1.596.2",
+      "commit": "true" 
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "plugins.txt",
+      "destination": "/usr/share/jenkins/plugins.txt"
+    },
+    {
+      "type": "file",
+      "source": "jenkins",
+      "destination": "/usr/share/jenkins/ref/"
+    },
+    {
+      "type": "file",
+      "source": "start.sh",
+      "destination": "/usr/local/bin/start.sh"
+    },
+    {
+      "type": "shell",
+      "environment_vars" : [ "CLOUDSDK_PYTHON_SITEPACKAGES=1" ],
+      "inline": [
+        "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt",
+        "apt-get install -y -qq --no-install-recommends wget unzip python openssh-client",
+        "apt-get clean",
+        "cd /usr/local/bin",
+        "wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip",
+        "unzip google-cloud-sdk.zip",
+        "rm google-cloud-sdk.zip",
+        "google-cloud-sdk/install.sh --usage-reporting=true --disable-installation-options",
+        "google-cloud-sdk/bin/gcloud --quiet components update preview",
+        "google-cloud-sdk/bin/gcloud --quiet config set component_manager/disable_update_check true"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+        {
+            "type": "docker-tag",
+            "repository": "gcr.io/{{user `project_id`}}/{{user `name`}}",
+            "tag": "{{user `git_branch`}}-{{user `git_commit`}}",
+            "only": ["docker"]
+        }
+    ]
+  ]
+}

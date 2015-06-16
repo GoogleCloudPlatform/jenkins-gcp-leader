@@ -6,7 +6,7 @@ Docker image for Jenkins, with Swarm, git, and Google Cloud Platform plugins ins
 # Running
 
 ```shell
-docker run --name jenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home grc.io/cloud-solutions-images/jenkins-gcp-leader
+docker run --name jenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home gcr.io/cloud-solutions-images/jenkins-gcp-leader
 ```
 
 # Backup and Restore
@@ -18,6 +18,6 @@ To restore from an existing backup stored in a GCS bucket, launch the container 
 docker run --name jenkins \
   -e GCS_RESTORE_URL:gs://your-bucket/your-backup.tgz \
   -p 8080:8080 -p 50000:50000 \
-  -v /var/jenkins_home grc.io/cloud-solutions-images/jenkins-gcp-leader
+  -v /var/jenkins_home gcr.io/cloud-solutions-images/jenkins-gcp-leader
 ```
 

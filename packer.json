@@ -23,7 +23,7 @@
     {
       "type": "file",
       "source": "jenkins/jobs",
-      "destination": "/usr/share/jenkins/ref/jobs"
+      "destination": "/usr/share/jenkins/ref"
     },
     {
       "type": "file",

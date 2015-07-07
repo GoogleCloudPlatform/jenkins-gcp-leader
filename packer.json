@@ -9,7 +9,7 @@
   "builders": [
     {
       "type": "docker",
-      "image": "jenkins:1.596.2",
+      "image": "jenkins:1.609.1",
       "run_command": ["-d", "-i", "-t", "-u", "root", "{{.Image}}", "/bin/bash"],
       "commit": "true" 
     }
@@ -22,8 +22,8 @@
     },
     {
       "type": "file",
-      "source": "jenkins",
-      "destination": "/usr/share/jenkins/ref/"
+      "source": "jenkins/jobs",
+      "destination": "/usr/share/jenkins/ref/jobs"
     },
     {
       "type": "file",

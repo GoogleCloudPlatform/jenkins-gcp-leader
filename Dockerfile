@@ -13,8 +13,8 @@
 #
 # jenkins-gcp-leader
 #
-# VERSION   0.0.1
-FROM jenkins:1.596.2
+# VERSION   0.0.2
+FROM jenkins:1.609.1
 
 MAINTAINER Evan Brown <evanbrown@google.com>
 
@@ -24,7 +24,7 @@ RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 
 # Copy Jenkins config
 USER root
-COPY jenkins /usr/share/jenkins/ref 
+COPY jenkins/jobs /usr/share/jenkins/ref/jobs 
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref
 
 # Install gcloud

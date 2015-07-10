@@ -36,7 +36,9 @@
       "inline": [
         "chmod +x /usr/local/bin/start.sh",
         "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt",
-        "apt-get install -y -qq --no-install-recommends wget unzip python openssh-client",
+        "apt-get update -y",
+        "apt-get upgrade -y",
+        "apt-get install -y -qq --no-install-recommends wget unzip python openssh-client rsync",
         "apt-get clean",
         "cd /usr/local/bin",
         "wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip",

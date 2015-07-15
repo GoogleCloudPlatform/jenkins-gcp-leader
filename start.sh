@@ -25,4 +25,4 @@ then
 fi
 
 # Run jenkins startup script
-/usr/local/bin/jenkins.sh "$@"
+exec /usr/local/bin/jenkins.sh "$@"

@@ -2,6 +2,7 @@ scm-api:0.2
 swarm:1.22
 git-client:1.16.1
 git:2.3.5
+parameterized-trigger:2.27
 oauth-credentials:0.3
 google-oauth-plugin:0.3
 google-metadata-plugin:0.2

@@ -34,9 +34,21 @@
       "type": "shell",
       "environment_vars" : [ "CLOUDSDK_CORE_DISABLE_PROMPTS=1" ],
       "inline": [
-        "curl https://sdk.cloud.google.com | bash",
         "chmod +x /usr/local/bin/start.sh",
-        "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt"
+        "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt",
+        "apt-get update -y",
+        "apt-get upgrade -y",
+        "apt-get install -y -qq --no-install-recommends wget unzip python openssh-client rsync",
+        "apt-get clean",
+        "cd /usr/local/bin",
+        "wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.zip",
+        "unzip google-cloud-sdk.zip",
+        "rm google-cloud-sdk.zip",
+        "google-cloud-sdk/install.sh --usage-reporting=true --disable-installation-options",
+        "google-cloud-sdk/bin/gcloud --quiet components update preview",
+        "google-cloud-sdk/bin/gcloud --quiet config set component_manager/disable_update_check true",
+        "ln -s /usr/local/bin/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud",
+        "ln -s /usr/local/bin/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil"
       ]
     }
   ],

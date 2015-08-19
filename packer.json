@@ -34,7 +34,7 @@
       "type": "shell",
       "environment_vars" : [ "CLOUDSDK_CORE_DISABLE_PROMPTS=1" ],
       "inline": [
-        "curl https://sdk.cloud.google.com | bash"
+        "curl https://sdk.cloud.google.com | bash",
         "chmod +x /usr/local/bin/start.sh",
         "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt"
       ]

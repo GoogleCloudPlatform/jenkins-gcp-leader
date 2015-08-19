@@ -1,5 +1,8 @@
 scm-api:0.2
 swarm:1.22
+workflow-aggregator:1.9
+docker-workflow:1.2
+multi-branch-project-plugin:0.2.4
 git-client:1.16.1
 git:2.3.5
 parameterized-trigger:2.27

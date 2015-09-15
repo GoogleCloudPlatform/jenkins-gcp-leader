@@ -40,7 +40,7 @@
       "environment_vars" : [ "CLOUDSDK_CORE_DISABLE_PROMPTS=1" ],
       "inline": [
         "chmod +x /usr/local/bin/start.sh",
-        "sed -i 's/@VERSION@/`cat /usr/share/workflow-version.txt`/g' /usr/share/plugins.txt",
+        "sed -i \"s/@VERSION@/`cat /usr/share/jenkins/workflow-version.txt`/g\" /usr/share/jenkins/plugins.txt",
         "/usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt",
         "apt-get update -y",
         "apt-get upgrade -y",

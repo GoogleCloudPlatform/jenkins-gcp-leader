@@ -1,3 +1,4 @@
+branch-api:0.2-beta-4
 durable-task:1.5
 multi-branch-project-plugin:0.2.4
 git-server:1.5

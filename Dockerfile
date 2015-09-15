@@ -19,8 +19,9 @@ FROM jenkins:1.609.2
 MAINTAINER Evan Brown <evanbrown@google.com>
 
 # Install plugins
-COPY plugins.txt /usr/share/jenkins/plugins.txt
+COPY workflow-version.txt plugins.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
+RUN sed -i "s/@VERSION@/`cat /usr/share/workflow-version.txt`/g" /usr/share/plugins.txt
 
 # Copy Jenkins config
 USER root

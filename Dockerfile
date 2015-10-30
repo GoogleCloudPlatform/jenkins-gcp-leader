@@ -14,22 +14,22 @@
 # jenkins-gcp-leader
 #
 # VERSION   0.0.2
-FROM jenkins:1.609.3
+FROM jenkins:1.625.1
 
 MAINTAINER Evan Brown <evanbrown@google.com>
 
 # Install plugins
-COPY workflow-version.txt plugins.txt /usr/share/jenkins/plugins.txt
+USER root
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+COPY workflow-version.txt /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
 RUN sed -i "s/@VERSION@/`cat /usr/share/workflow-version.txt`/g" /usr/share/plugins.txt
 
 # Copy Jenkins config
-USER root
 COPY jenkins/jobs /usr/share/jenkins/ref/jobs 
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref
 
 # Install gcloud
-USER root
 ENV CLOUDSDK_PYTHON_SITEPACKAGES 1
 RUN apt-get install -y -qq --no-install-recommends wget unzip python openssh-client \
   && apt-get clean \

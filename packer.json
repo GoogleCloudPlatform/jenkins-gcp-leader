@@ -9,7 +9,7 @@
   "builders": [
     {
       "type": "docker",
-      "image": "jenkins:1.609.3",
+      "image": "jenkins:1.625.1",
       "run_command": ["-d", "-i", "-t", "-u", "root", "{{.Image}}", "/bin/bash"],
       "commit": "true" 
     }

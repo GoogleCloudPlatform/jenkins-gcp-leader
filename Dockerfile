@@ -21,11 +21,11 @@ MAINTAINER Evan Brown <evanbrown@google.com>
 # Install plugins
 USER root
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-COPY workflow-version.txt /usr/share/jenkins/plugins.txt
+COPY workflow-version.txt /usr/share/jenkins/workflow-version.txt
+RUN sed -i "s/@VERSION@/`cat /usr/share/jenkins/workflow-version.txt`/g" /usr/share/jenkins/plugins.txt
 RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
-RUN sed -i "s/@VERSION@/`cat /usr/share/workflow-version.txt`/g" /usr/share/plugins.txt
 
-# Copy Jenkins config
+# Copy Jenkins configk
 COPY jenkins/jobs /usr/share/jenkins/ref/jobs 
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref
 
@@ -41,6 +41,7 @@ RUN apt-get install -y -qq --no-install-recommends wget unzip python openssh-cli
 ENV PATH /usr/local/bin/google-cloud-sdk/bin:$PATH
 
 # Setup entrypoint
-USER jenkins
 COPY start.sh /usr/local/bin/start.sh
+RUN chown jenkins /usr/local/bin/start.sh
+USER jenkins
 ENTRYPOINT ["/usr/local/bin/start.sh"]

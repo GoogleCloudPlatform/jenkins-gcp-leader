@@ -12,7 +12,7 @@ docker run --name jenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home gcr.i
 # Backup and Restore
 The image includes a job to perform backups to Google Cloud Storage. You must modify the job to include the name of your GCS bucket if you wish to perform backups.
 
-To restore from an existing backup stored in a GCS bucket, launch the container with an environmetn variabled named GCS_RESTORE_URL that points to the backup (including the gs:// scheme). For example:
+To restore from an existing backup stored in a GCS bucket, launch the container with an environment variable named GCS_RESTORE_URL that points to the backup (including the gs:// scheme). For example:
 
 ```shell
 docker run --name jenkins \
